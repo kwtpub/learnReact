@@ -37,3 +37,29 @@ input:focus {
   border-color: #2e7d32;
 }
 
+.post-item {
+  display: block;
+  margin: 10px 0;
+}
+
+.post-enter { 
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.post-enter-active { 
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms ease-in;
+}
+
+.post-exit { 
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.post-exit-active { 
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 500ms ease-in;
+}

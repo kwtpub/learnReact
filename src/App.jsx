@@ -8,41 +8,35 @@ import PostForm from './components/PostForm'
 import Select from './components/UI/select/Select'
 import PostFilter from './components/PostFilter'
 import Modal from './components/UI/Modal/Modal'
+import { usePosts } from './hooks/usePosts'
+import axios from 'axios'
 function App() {
-  const [items, setItems] = useState([
-    {id: 2, name: 'Banana', price: 60},
-    {id: 3, name: 'Orange', price: 30},
-    {id: 1, name: 'Apple', price: 10},
-    {id: 4, name: 'Cherry', price: 100},
-  ])
+  const [items, setItems] = useState([])
   
   const [filter, setFilter] = useState({sort: '', query: ''})
 
   const [modal, setModal] = useState(false)
 
-  const createPost = (newPost) => {
-    setItems([...items,newPost])
+  const sortedAndSearchedPosts = usePosts(items,filter.sort,filter.query);
+
+  const createPost = (newPost) =>  setItems([...items,newPost])
+  
+  const  fetchPosts = async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    setItems(response.data)
   }
 
-  const sortedPosts = useMemo(() => {
-    console.log('функция вызвалась')
-    if (filter.sort) { 
-      return [...items].sort((a,b) => String(a[filter.sort]).localeCompare(String(b[filter.sort])))
-    }
-    return items
-  }, [filter.sort, items])
 
-  const sortedAndSearchedPosts = useMemo(() => { 
-    return sortedPosts.filter(post => post.name.toLowerCase().includes(filter.query.toLowerCase()))
-  }, [filter.query, sortedPosts])
+
 
   const removePost = (post) => {
     setItems(items.filter(p => p.id !== post.id))
   }
-
+ 
 
   return (
     <>
+      <Button onClick={fetchPosts}>Получить посты</Button>
       <Button onClick={() => setModal(true)}>Добавить пост</Button>
       <Modal visible={modal} setVisible={setModal}>
         <PostForm create={createPost}/>
