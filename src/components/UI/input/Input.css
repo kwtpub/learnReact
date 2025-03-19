@@ -1,0 +1,13 @@
+input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #81c784;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #2e7d32;
+  }
+  
